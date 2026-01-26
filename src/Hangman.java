@@ -7,8 +7,11 @@ public class Hangman {
     //метод управления логикой игры
     public void startGame(){
         while (true) {
-            startGameMenu();
-            startGameLoop();
+            if(startGameMenu()){
+                startGameLoop();
+            }else {
+                return;
+            }
         }
     }
 
@@ -77,7 +80,7 @@ public class Hangman {
 
 
     //метод показа приветственного меню для начала игры или ее завершения
-    public void startGameMenu(){
+    public boolean startGameMenu(){
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("\nВведите " + NEW_GAME + ": Новая игра\n" + "Введите " + EXIT + ": Выйти из игры");
@@ -87,10 +90,11 @@ public class Hangman {
             if(choice.equals(NEW_GAME)){
                 break;
             } else if (choice.equals(EXIT)) {
-                return;
+                return false;
             }else{
                 System.out.println("Введите корректное значение: " + NEW_GAME + " или " + EXIT);
             }
         }
+        return true;
     }
 }
