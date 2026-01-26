@@ -1,5 +1,3 @@
-import java.sql.Array;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Hangman {
@@ -13,20 +11,49 @@ public class Hangman {
     }
 
     public void startGameLoop(){
+         int mistakeCount = 0;
          String word = DictionaryReader.readWordFromFile();
          String hideWord = DictionaryReader.hideWord(word);
+         Gallow gallow = Gallow.START_STATE;
+         System.out.println(gallow.getState());
          System.out.println("Слово: " + hideWord);
-         int mistakeCount = 0;
          System.out.println("Счетчик ошибок: " + mistakeCount);
-         guessLetter(word,hideWord);
+         String temp = hideWord;
+         while (true){
+
+             String guessedWord = guessLetter(word,temp);
+
+             if(guessedWord.equals(temp)){
+                 mistakeCount++;
+                 System.out.println(gallow.nextState().getState());
+                 System.out.println("Слово: " + temp);
+                 System.out.println("Счетчик ошибок: " + mistakeCount);
+                 if(mistakeCount == 6){
+                     System.out.println("ВЫ ПРОИГРАЛИ");
+                     break;
+                 }
+             }else {
+                 temp = guessedWord;
+                 System.out.println(gallow.getState());
+                 System.out.println("Слово: " + temp);
+                 System.out.println("Счетчик ошибок: " + mistakeCount);
+                 if (guessedWord.equals(word)){
+                     System.out.println("ВЫ ВЫИГРАЛИ");
+                     break;
+                 }
+             }
+
+         }
+
     }
 
+    //возвращает строку с отгаданными или нет буквами
     public String guessLetter(String word, String hideWord){
         Scanner scanner = new Scanner(System.in);
         String letter = "";
         System.out.println("Введите букву: ");
         while (true){
-            letter = scanner.nextLine().toLowerCase();
+            letter = scanner.nextLine();
             if(letter.length() != 1 || !letter.matches("[а-я]+")){
                 System.out.println("Введите корректное значение (одну букву): ");
             }
@@ -34,6 +61,8 @@ public class Hangman {
                 break;
             }
         }
+
+
         char temp  = letter.charAt(0);
         StringBuilder stringBuilder = new StringBuilder(hideWord);
         for(int i = 0; i<word.length(); i++){
@@ -43,7 +72,6 @@ public class Hangman {
         }
         return stringBuilder.toString();
     }
-
 
 
     //метод показа приветственного меню для начала игры или ее завершения

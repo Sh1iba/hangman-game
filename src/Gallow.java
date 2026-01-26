@@ -87,7 +87,14 @@ public enum Gallow {
     }
 
     //метод для перехода на следующее состояние висилицы
-    public void nextState(){
+    public Gallow nextState(){
+        Gallow[] gallows = values();
+        int next = this.ordinal()+1;
+
+        if(next >= gallows.length){
+            return this;
+        }
+        return gallows[next];
     }
 
 }
