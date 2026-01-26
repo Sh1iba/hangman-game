@@ -18,24 +18,24 @@ public class Hangman {
          System.out.println(gallow.getState());
          System.out.println("Слово: " + hideWord);
          System.out.println("Счетчик ошибок: " + mistakeCount);
-         String temp = hideWord;
          while (true){
 
-             String guessedWord = guessLetter(word,temp);
+             String guessedWord = guessLetter(word,hideWord);
 
-             if(guessedWord.equals(temp)){
+             if(guessedWord.equals(hideWord)){
                  mistakeCount++;
-                 System.out.println(gallow.nextState().getState());
-                 System.out.println("Слово: " + temp);
+                 gallow = gallow.nextState();
+                 System.out.println(gallow.getState());
+                 System.out.println("Слово: " + hideWord);
                  System.out.println("Счетчик ошибок: " + mistakeCount);
                  if(mistakeCount == 6){
                      System.out.println("ВЫ ПРОИГРАЛИ");
                      break;
                  }
              }else {
-                 temp = guessedWord;
+                 hideWord = guessedWord;
                  System.out.println(gallow.getState());
-                 System.out.println("Слово: " + temp);
+                 System.out.println("Слово: " + hideWord);
                  System.out.println("Счетчик ошибок: " + mistakeCount);
                  if (guessedWord.equals(word)){
                      System.out.println("ВЫ ВЫИГРАЛИ");
