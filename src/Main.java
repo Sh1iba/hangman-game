@@ -1,7 +1,7 @@
 
 class Main{
     public static void main() {
-        System.out.println(DictionaryReader.readWordFromFile());
-
+        Hangman d = new Hangman();
+        d.startGame();
     }
 }

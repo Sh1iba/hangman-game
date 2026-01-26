@@ -1,11 +1,6 @@
 //должен получить с файла одно рандомное слово
-
 import java.io.File;
-import java.io.FileReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class DictionaryReader {
 
@@ -17,12 +12,21 @@ public class DictionaryReader {
             while (scanner.hasNextLine()){
                 dictionary.add(scanner.nextLine());
             }
+            scanner.close();
             Random random = new Random();
-            return dictionary.get(random.nextInt(dictionary.size())).toString();
+            return dictionary.get(random.nextInt(dictionary.size())).toString().toLowerCase();
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-    //метод мб преобразования слова в *
+
+    //метод преобразования слова в скрытое
+    public static String hideWord(String word) {
+        String hideWord = "";
+        for(int i = 0; i < word.length(); i++){
+            hideWord+="_";
+        }
+        return hideWord;
+    }
 }
