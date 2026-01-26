@@ -6,8 +6,10 @@ public class Hangman {
 
     //метод управления логикой игры
     public void startGame(){
-        startGameMenu();
-        startGameLoop();
+        while (true) {
+            startGameMenu();
+            startGameLoop();
+        }
     }
 
     public void startGameLoop(){
@@ -78,7 +80,7 @@ public class Hangman {
     public void startGameMenu(){
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите " + NEW_GAME + ": Новая игра\n" + "Введите " + EXIT + ": Выйти из игры");
+        System.out.println("\nВведите " + NEW_GAME + ": Новая игра\n" + "Введите " + EXIT + ": Выйти из игры");
 
         while (true){
             String choice = scanner.nextLine();
