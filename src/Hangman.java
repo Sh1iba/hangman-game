@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class Hangman {
     private static final String NEW_GAME = "1";
@@ -32,16 +32,17 @@ public class Hangman {
                  gallow = gallow.nextState();
                  System.out.println(gallow.getState());
                  System.out.println("Слово: " + hideWord);
-                 System.out.println("Счетчик ошибок: " + mistakeCount);
-                 if(mistakeCount == 6){
+                 System.out.println("Счетчик ошибок (" + mistakeCount + ")");
+                 if(gallow.getState().equals(Gallow.FINAL_STATE.getState())){
                      System.out.println("ВЫ ПРОИГРАЛИ");
+                     System.out.println("Загаданное слово: " + word);
                      break;
                  }
              }else {
                  hideWord = guessedWord;
                  System.out.println(gallow.getState());
                  System.out.println("Слово: " + hideWord);
-                 System.out.println("Счетчик ошибок: " + mistakeCount);
+                 System.out.println("Счетчик ошибок (" + mistakeCount + ")");
                  if (guessedWord.equals(word)){
                      System.out.println("ВЫ ВЫИГРАЛИ");
                      break;
@@ -56,6 +57,7 @@ public class Hangman {
     public String guessLetter(String word, String hideWord){
         Scanner scanner = new Scanner(System.in);
         String letter = "";
+        Set<String> setsOfLetter = new LinkedHashSet<>();
         System.out.println("Введите букву: ");
         while (true){
             letter = scanner.nextLine();
@@ -66,7 +68,6 @@ public class Hangman {
                 break;
             }
         }
-
 
         char temp  = letter.charAt(0);
         StringBuilder stringBuilder = new StringBuilder(hideWord);

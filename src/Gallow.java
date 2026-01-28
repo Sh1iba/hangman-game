@@ -86,7 +86,7 @@ public enum Gallow {
         return state;
     }
 
-    //метод для перехода на следующее состояние висилицы
+    //метод для перехода на следующее состояние виселицы
     public Gallow nextState(){
         Gallow[] gallows = values();
         int next = this.ordinal()+1;

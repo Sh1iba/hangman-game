@@ -1,7 +1,7 @@
 
 class Main{
     public static void main() {
-        Hangman d = new Hangman();
-        d.startGame();
+        Hangman game = new Hangman();
+        game.startGame();
     }
 }
