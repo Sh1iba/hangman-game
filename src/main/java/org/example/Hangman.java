@@ -8,9 +8,9 @@ public class Hangman {
     private static final String EXIT = "2";
     private final Scanner scanner = new Scanner(System.in);
     private final Pattern CYRILLIC = Pattern.compile("[а-я]+");
-    String word;
-    String hideWord;
-    Set<String> usedWord = new HashSet<>();
+    private String word;
+    private String hideWord;
+    private Set<String> usedWord = new HashSet<>();
 
     //метод управления логикой игры
     public void startGame(){
@@ -40,7 +40,7 @@ public class Hangman {
                  gallow = gallow.nextState();
                  printGameState(gallow,mistakeCount);
                  if(gallow.getState().equals(Gallow.FINAL_STATE.getState())){
-                     System.out.println("ВЫ ПРОИГРАЛИ (ᴗ_ ᴗ。)");
+                     System.out.println("ВЫ ПРОИГРАЛИ \uD83D\uDEA9");
                      System.out.println("Загаданное слово: " + word);
                      usedWord.clear();
                      break;
