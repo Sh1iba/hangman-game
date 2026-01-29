@@ -10,6 +10,7 @@ public class Hangman {
     private final Pattern CYRILLIC = Pattern.compile("[а-я]+");
     String word;
     String hideWord;
+    Set<String> usedWord = new HashSet<>();
 
     //метод управления логикой игры
     public void startGame(){
@@ -41,6 +42,7 @@ public class Hangman {
                  if(gallow.getState().equals(Gallow.FINAL_STATE.getState())){
                      System.out.println("ВЫ ПРОИГРАЛИ (ᴗ_ ᴗ。)");
                      System.out.println("Загаданное слово: " + word);
+                     usedWord.clear();
                      break;
                  }
              }else {
@@ -48,6 +50,7 @@ public class Hangman {
                  printGameState(gallow,mistakeCount);
                  if (guessedWord.equals(word)){
                      System.out.println("ВЫ ВЫИГРАЛИ \uD83C\uDFC6");
+                     usedWord.clear();
                      break;
                  }
              }
@@ -60,7 +63,7 @@ public class Hangman {
         System.out.println(gallow.getState());
         System.out.println("Слово: " + hideWord);
         System.out.println("Счетчик ошибок: " + mistakeCount);
-        //System.out.println("Использованные буквы: " + mistakeCount);
+        System.out.println("Использованные буквы: " + usedWord);
     }
 
     //возвращает строку с отгаданными или нет буквами
@@ -80,12 +83,17 @@ public class Hangman {
         String letter = "";
         System.out.println("Введите букву: ");
         while (true){
-            letter = scanner.nextLine();
+            letter = scanner.nextLine().toLowerCase();
             if(letter.length() != 1 || !CYRILLIC.matcher(letter).matches()){
-                System.out.println("Введите корректное значение (одну букву): ");
+                System.out.println("Введите корректное значение: (одну букву на русском)");
             }
             else{
-                return letter;
+                if(usedWord.contains(letter)){
+                    System.out.println("Вы уже использовали эту букву");
+                }else {
+                    usedWord.add(letter);
+                    return letter;
+                }
             }
         }
     }
