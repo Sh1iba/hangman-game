@@ -1,3 +1,5 @@
+package main.java.org.example;
+
 import java.util.*;
 
 public class Hangman {

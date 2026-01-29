@@ -1,3 +1,5 @@
+package main.java.org.example;
+
 public enum Gallow {
     START_STATE("""
          _______________

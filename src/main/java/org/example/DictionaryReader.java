@@ -1,20 +1,21 @@
-//должен получить с файла одно рандомное слово
+package main.java.org.example;
 import java.io.File;
 import java.util.*;
 
+//должен получить с файла одно рандомное слово
 public class DictionaryReader {
 
     //метод считывания слова с файла
     public static String readWordFromFile(){
         try{
-            Scanner scanner = new Scanner(new File("src/dictionary.txt"));
+            Scanner scanner = new Scanner(new File("src/resources/dictionary.txt"));
             ArrayList<String> dictionary = new ArrayList<>();
             while (scanner.hasNextLine()){
                 dictionary.add(scanner.nextLine());
             }
             scanner.close();
-            Random random = new Random();
-            return dictionary.get(random.nextInt(dictionary.size())).toString().toLowerCase();
+            return dictionary.get(new Random().nextInt(dictionary.size())).toString().toLowerCase();
+
 
         } catch (Exception e) {
             throw new RuntimeException(e);
