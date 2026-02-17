@@ -1,33 +1,41 @@
 package main.java.org.example;
 
+import java.text.Collator;
 import java.util.*;
 import java.util.regex.Pattern;
 
 public class Hangman {
     private static final String NEW_GAME = "1";
     private static final String EXIT = "2";
+
     private final Scanner scanner = new Scanner(System.in);
-    private final Pattern CYRILLIC = Pattern.compile("[а-я]+");
+    private final Pattern CYRILLIC = Pattern.compile("[а-яё]+");
+    Collator collator = Collator.getInstance(new Locale("ru"));
+    
     private String word;
     private String hideWord;
-    private Set<String> usedWord = new HashSet<>();
+    private final List<String> usedLetters = new ArrayList<>();
 
-    //метод управления логикой игры
     public void startGame(){
         while (true) {
             if(startGameMenu()){
                 startGameLoop();
-            }else {
-                return;
             }
+            else return;
+
         }
     }
 
-    //запускает игровой цикл
     private void startGameLoop(){
          byte mistakeCount = 0;
-         word = Dictionary.getRandomWord();
-         hideWord = Dictionary.hideWord(word);
+        try {
+            word = Dictionary.getRandomWord();
+        } catch (IllegalStateException e) {
+            System.err.println("\n❌ Не удалось начать игру: " + e.getMessage());
+            System.err.println("Возврат в главное меню.");
+            return; // возвращаемся в меню
+        }
+         hideWord = hideWord(word);
          Gallow gallow = Gallow.START_STATE;
          printGameState(gallow,mistakeCount);
          String guessedWord;
@@ -42,7 +50,7 @@ public class Hangman {
                  if(gallow.getState().equals(Gallow.FINAL_STATE.getState())){
                      System.out.println("ВЫ ПРОИГРАЛИ \uD83D\uDEA9");
                      System.out.println("Загаданное слово: " + word);
-                     usedWord.clear();
+                     usedLetters.clear();
                      break;
                  }
              }else {
@@ -50,7 +58,7 @@ public class Hangman {
                  printGameState(gallow,mistakeCount);
                  if (guessedWord.equals(word)){
                      System.out.println("ВЫ ВЫИГРАЛИ \uD83C\uDFC6");
-                     usedWord.clear();
+                     usedLetters.clear();
                      break;
                  }
              }
@@ -58,15 +66,13 @@ public class Hangman {
          }
     }
 
-    //выводит в консоль текущее состояние игры
     private void printGameState(Gallow gallow,byte mistakeCount){
         System.out.println(gallow.getState());
         System.out.println("Слово: " + hideWord);
         System.out.println("Счетчик ошибок: " + mistakeCount);
-        System.out.println("Использованные буквы: " + usedWord);
+        System.out.println("Использованные буквы: " + usedLetters);
     }
 
-    //возвращает строку с отгаданными или нет буквами
     private String guessLetter(){
         char letter  = letterValidation().charAt(0);
         StringBuilder stringBuilder = new StringBuilder(hideWord);
@@ -78,40 +84,43 @@ public class Hangman {
         return stringBuilder.toString();
     }
 
-    //возвращает введенную пользователем букву
     private String letterValidation(){
-        String letter = "";
         System.out.println("Введите букву: ");
         while (true){
-            letter = scanner.nextLine().toLowerCase();
+            String letter = scanner.nextLine().toLowerCase();
             if(letter.length() != 1 || !CYRILLIC.matcher(letter).matches()){
                 System.out.println("Введите корректное значение: (одну букву на русском)");
             }
             else{
-                if(usedWord.contains(letter)){
+                if(usedLetters.contains(letter)){
                     System.out.println("Вы уже использовали эту букву");
                 }else {
-                    usedWord.add(letter);
+                    usedLetters.add(letter);
+                    usedLetters.sort(collator);
                     return letter;
                 }
             }
         }
     }
 
+    private String hideWord(String word) {
+        return "_".repeat(word.length());
+    }
 
-    //метод показа приветственного меню для начала игры или ее завершения
     private boolean startGameMenu(){
-        System.out.println("\nВведите " + NEW_GAME + ": Новая игра\n" + "Введите " + EXIT + ": Выйти из игры");
-        String choice;
+        System.out.println();
+        System.out.printf("Введите %s: Новая игра  %n",  NEW_GAME);
+        System.out.printf("Введите %s: Выйти из игры  %n", EXIT);
         while (true){
-            choice = scanner.nextLine();
+            String choice = scanner.nextLine();
             if(choice.equals(NEW_GAME)){
                 return true;
-            } else if (choice.equals(EXIT)) {
-                return false;
-            }else{
-                System.out.println("Введите корректное значение: " + NEW_GAME + " или " + EXIT);
             }
+            if (choice.equals(EXIT)) {
+                return false;
+            }
+            System.out.printf("Введите корректное значение: %s или %s  %n", NEW_GAME, EXIT);
+
         }
     }
 }
