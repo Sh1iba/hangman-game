@@ -1,7 +1,8 @@
 package main.java.org.example;
 
-public enum Gallow {
-    START_STATE("""
+public class GallowRenderer {
+    private static final String[] PICTURES = {
+            """
          _______________
              |/      |
              |
@@ -10,8 +11,8 @@ public enum Gallow {
              |
              |
          ____|____
-        """),
-    MISTAKE_COUNT_ONE("""
+        """,
+            """
          _______________
              |/      |
              |       O
@@ -21,8 +22,8 @@ public enum Gallow {
              |
          ____|____
         """
-    ),
-    MISTAKE_COUNT_TWO("""
+            ,
+            """
          _______________
              |/      |
              |       O
@@ -32,8 +33,8 @@ public enum Gallow {
              |
          ____|____
         """
-    ),
-    MISTAKE_COUNT_THREE("""
+            ,
+            """
          _______________
              |/      |
              |       O
@@ -43,8 +44,8 @@ public enum Gallow {
              |
          ____|____
         """
-    ),
-    MISTAKE_COUNT_FOUR("""
+            ,
+            """
         _______________
              |/      |
              |       O
@@ -54,8 +55,8 @@ public enum Gallow {
              |
          ____|____
        """
-    ),
-    MISTAKE_COUNT_FIVE("""
+            ,
+            """
         _______________
              |/      |
              |       O
@@ -65,8 +66,8 @@ public enum Gallow {
              |
          ____|____
        """
-    ),
-    FINAL_STATE("""
+            ,
+            """
         _______________
              |/      |
              |       O
@@ -76,26 +77,18 @@ public enum Gallow {
              |
          ____|____
        """
-    ),;
+    };
 
-    private String state;
-
-    Gallow(String state){
-        this.state = state;
-    }
-
-    public String getState(){
-        return state;
-    }
-
-    public Gallow nextState(){
-        Gallow[] gallows = values();
-        int next = this.ordinal()+1;
-
-        if(next >= gallows.length){
-            return this;
+    public static void render(int pictureNumber) {
+        if (pictureNumber >= 0 && pictureNumber < PICTURES.length) {
+            System.out.println(PICTURES[pictureNumber]);
+        } else {
+            throw new IllegalArgumentException("Недопустимое значение: " + pictureNumber);
         }
-        return gallows[next];
+    }
+
+    public static int getMaxPictures() {
+        return PICTURES.length;
     }
 
 }
