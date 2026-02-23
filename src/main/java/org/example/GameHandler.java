@@ -3,7 +3,7 @@ package main.java.org.example;
 public class GameHandler {
     private static final String LOSE_SPRITE = "\uD83D\uDEA9";
     private static final String WIN_SPRITE = "\uD83C\uDFC6";
-    private static final int MAX_MISTAKES = GallowRenderer.getMaxPictures();
+    private static final int MAX_MISTAKES = GallowRenderer.getMaxPictures()-1;
 
     private final InputHandler inputHandler = new InputHandler();
     private WordHandler wordHandler;
