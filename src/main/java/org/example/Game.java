@@ -1,15 +1,18 @@
 package main.java.org.example;
 
-public class GameHandler {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Game {
     private static final String LOSE_SPRITE = "\uD83D\uDEA9";
     private static final String WIN_SPRITE = "\uD83C\uDFC6";
     private static final int MAX_MISTAKES = GallowRenderer.getMaxPictures()-1;
 
-    private final InputHandler inputHandler = new InputHandler();
-    private WordHandler wordHandler;
+    private final ConsoleInput inputHandler = new ConsoleInput();
+    private final UsedLetters usedLetters = new UsedLetters();
+    private Word word;
     private int mistakeCount = 0;
     private GameStatus status;
-
 
     public void startGame() {
         while (true) {
@@ -22,10 +25,10 @@ public class GameHandler {
 
     private void initRound() {
         status = GameStatus.IN_PROGRESS;
-        inputHandler.clearUsedLetters();
+        usedLetters.clear();
         mistakeCount = 0;
         try {
-            wordHandler = new WordHandler(Dictionary.getRandomWord());
+            word = new Word(Dictionary.getRandomWord());
         } catch (RuntimeException e) {
             System.err.println("Завершение работы программы...");
             return;
@@ -37,14 +40,15 @@ public class GameHandler {
         while (status == GameStatus.IN_PROGRESS) {
             printGameState();
 
-            char letter = inputHandler.inputRussianLetter();
-            boolean isLetterGuessed = wordHandler.guessLetter(letter);
+            char letter = inputValidNotUsedLetter();
 
-            if(!isLetterGuessed){
+            if(word.containsLetter(letter)){
+                word.openLetter(letter);
+            }else {
                 mistakeCount++;
             }
 
-            if (wordHandler.isWordGuessed()) {
+            if (word.isWordGuessed()) {
                 status = GameStatus.WIN;
                 continue;
             }
@@ -60,9 +64,21 @@ public class GameHandler {
             case LOSE:
                 printGameState();
                 System.out.printf("ВЫ ПРОИГРАЛИ %s%n", LOSE_SPRITE);
-                System.out.println("Загаданное слово: " + wordHandler.getWord());
+                System.out.println("Загаданное слово: " + word.getWord());
                 break;
 
+        }
+    }
+
+    private char inputValidNotUsedLetter(){
+        while (true){
+            char letter = inputHandler.inputRussianLetter();
+            if (usedLetters.contains(Character.toString(letter))) {
+                System.out.println("Вы уже использовали эту букву");
+                continue;
+            }
+            usedLetters.add(Character.toString(letter));
+            return letter;
         }
     }
 
@@ -72,9 +88,9 @@ public class GameHandler {
         }catch (IllegalArgumentException e) {
             return;
         }
-        System.out.println("Слово: " + wordHandler.getMaskedWord());
+        System.out.println("Слово: " + word.getMaskedWord());
         System.out.println("Счетчик ошибок: " + mistakeCount);
-        System.out.println("Использованные буквы: " + inputHandler.getSortedUsedLetters());
+        System.out.println("Использованные буквы: " + usedLetters.getSorted());
     }
 
     private boolean startGameMenu() {

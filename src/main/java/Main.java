@@ -1,10 +1,10 @@
 package main.java;
 
-import main.java.org.example.GameHandler;
+import main.java.org.example.Game;
 
 class Main {
     public static void main(String[] args) {
-        GameHandler hangman = new GameHandler();
+        Game hangman = new Game();
         hangman.startGame();
     }
 }

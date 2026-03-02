@@ -1,25 +1,26 @@
 package main.java.org.example;
 
-public class WordHandler {
+public class Word {
     private final String word;
     private String maskedWord;
 
-    WordHandler(String word){
+    Word(String word){
         this.word = word;
         this.maskedWord = "_".repeat(word.length());
     }
 
-    public boolean guessLetter(char letter) {
+    public void openLetter(char letter) {
         StringBuilder stringBuilder = new StringBuilder(maskedWord);
-        boolean flag = false;
         for (int i = 0; i < word.length(); i++) {
             if (word.charAt(i) == letter) {
                 stringBuilder.setCharAt(i, letter);
-                flag = true;
             }
         }
         maskedWord = stringBuilder.toString();
-        return flag;
+    }
+
+    public boolean containsLetter(char letter) {
+        return word.indexOf(letter) >= 0;
     }
 
     public boolean isWordGuessed(){
