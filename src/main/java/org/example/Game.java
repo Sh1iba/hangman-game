@@ -1,12 +1,9 @@
 package main.java.org.example;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Game {
     private static final String LOSE_SPRITE = "\uD83D\uDEA9";
     private static final String WIN_SPRITE = "\uD83C\uDFC6";
-    private static final int MAX_MISTAKES = GallowRenderer.getMaxPictures()-1;
+    private static final int MAX_MISTAKES = GallowRenderer.getMaxPictures() - 1;
 
     private final ConsoleInput inputHandler = new ConsoleInput();
     private final UsedLetters usedLetters = new UsedLetters();
@@ -31,7 +28,6 @@ public class Game {
             word = new Word(Dictionary.getRandomWord());
         } catch (RuntimeException e) {
             System.err.println("Завершение работы программы...");
-            return;
         }
     }
 
@@ -42,9 +38,9 @@ public class Game {
 
             char letter = inputValidNotUsedLetter();
 
-            if(word.containsLetter(letter)){
+            if (word.containsLetter(letter)) {
                 word.openLetter(letter);
-            }else {
+            } else {
                 mistakeCount++;
             }
 
@@ -52,11 +48,11 @@ public class Game {
                 status = GameStatus.WIN;
                 continue;
             }
-            if(mistakeCount >= MAX_MISTAKES){
+            if (mistakeCount >= MAX_MISTAKES) {
                 status = GameStatus.LOSE;
             }
         }
-        switch (status){
+        switch (status) {
             case WIN:
                 printGameState();
                 System.out.printf("ВЫ ВЫИГРАЛИ %s%n", WIN_SPRITE);
@@ -70,8 +66,8 @@ public class Game {
         }
     }
 
-    private char inputValidNotUsedLetter(){
-        while (true){
+    private char inputValidNotUsedLetter() {
+        while (true) {
             char letter = inputHandler.inputRussianLetter();
             if (usedLetters.contains(Character.toString(letter))) {
                 System.out.println("Вы уже использовали эту букву");
@@ -85,7 +81,7 @@ public class Game {
     private void printGameState() {
         try {
             GallowRenderer.render(mistakeCount);
-        }catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return;
         }
         System.out.println("Слово: " + word.getMaskedWord());

@@ -19,9 +19,11 @@ public class ConsoleInput {
 
             String input = scanner.nextLine();
 
-            switch (input){
-                case NEW_GAME: return true;
-                case EXIT: return false;
+            switch (input) {
+                case NEW_GAME:
+                    return true;
+                case EXIT:
+                    return false;
                 default:
                     System.out.printf("Введите %s или %s %n", NEW_GAME, EXIT);
             }
@@ -41,7 +43,7 @@ public class ConsoleInput {
         }
     }
 
-    private boolean isValidRussianLetter(String letter){
+    private boolean isValidRussianLetter(String letter) {
         return letter.length() == 1 && CYRILLIC.matcher(letter).matches();
     }
 }

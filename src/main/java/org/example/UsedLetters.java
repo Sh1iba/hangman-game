@@ -24,7 +24,7 @@ public class UsedLetters {
         return sorted;
     }
 
-    public void clear(){
+    public void clear() {
         letters.clear();
     }
 

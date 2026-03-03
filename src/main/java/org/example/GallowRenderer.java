@@ -1,8 +1,7 @@
 package main.java.org.example;
 
 public class GallowRenderer {
-    private static final String[] PICTURES = {
-            """
+    private static final String[] PICTURES = {"""
          _______________
              |/      |
              |
@@ -11,8 +10,7 @@ public class GallowRenderer {
              |
              |
          ____|____
-        """,
-            """
+        """, """
          _______________
              |/      |
              |       O
@@ -21,9 +19,7 @@ public class GallowRenderer {
              |
              |
          ____|____
-        """
-            ,
-            """
+        """, """
          _______________
              |/      |
              |       O
@@ -32,9 +28,7 @@ public class GallowRenderer {
              |
              |
          ____|____
-        """
-            ,
-            """
+        """, """
          _______________
              |/      |
              |       O
@@ -43,9 +37,7 @@ public class GallowRenderer {
              |
              |
          ____|____
-        """
-            ,
-            """
+        """, """
         _______________
              |/      |
              |       O
@@ -54,9 +46,7 @@ public class GallowRenderer {
              |
              |
          ____|____
-       """
-            ,
-            """
+       """, """
         _______________
              |/      |
              |       O
@@ -65,9 +55,7 @@ public class GallowRenderer {
              |
              |
          ____|____
-       """
-            ,
-            """
+       """, """
         _______________
              |/      |
              |       O
@@ -76,8 +64,7 @@ public class GallowRenderer {
              |
              |
          ____|____
-       """
-    };
+       """};
 
     public static void render(int pictureNumber) {
         if (pictureNumber >= 0 && pictureNumber < PICTURES.length) {

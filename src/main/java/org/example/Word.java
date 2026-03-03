@@ -4,7 +4,7 @@ public class Word {
     private final String word;
     private String maskedWord;
 
-    Word(String word){
+    Word(String word) {
         this.word = word;
         this.maskedWord = "_".repeat(word.length());
     }
@@ -23,7 +23,7 @@ public class Word {
         return word.indexOf(letter) >= 0;
     }
 
-    public boolean isWordGuessed(){
+    public boolean isWordGuessed() {
         return maskedWord.equals(word);
     }
 
